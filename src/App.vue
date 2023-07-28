@@ -1,38 +1,35 @@
 
 <template>
-  <section v-if="currentWeather">
-    <w-widget :current-weather="currentWeather" />
-    <pre>
-      <!-- {{ currentWeather }} -->
-    </pre>
+  <section class="md:container md:mx-auto">
+    <section class="grid grid-cols-1">
+      <w-widget class="w-64 rounded-lg" :current-weather="currentWeather" />
+    </section>
   </section>
-  <section v-else>
-      ...loading
-  </section>
-  
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import WWidget from './components/WWidget.vue'
-import type { WeatherData } from "./types";
+import type { WeatherData, Coordinates } from "./types";
+import weatherService from './services/api'
 
-const coords = ref<Record<'latitude' | 'longitude', string | number | null>>({
+const coords = ref<Coordinates>({
   latitude: null,
   longitude: null,
 })
 
 const currentWeather = ref<WeatherData | null>(null)
 
-watch(coords, (newCoords) => {
-  if (newCoords.latitude) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${coords.value.latitude}&lon=${coords.value.longitude}&appid=f0d4a01d87c5141a346fe655299db639`)
-      .then((res) => res.json())
-      .then((data: WeatherData) => {
-        currentWeather.value = data
-      })
+watch(coords, async (newCoords) => updateWidget(newCoords))
+const updateWidget = async (coords: Coordinates) => {
+  if (coords.latitude) {
+    currentWeather.value = await weatherService.getCurrentWeather(coords)
   }
-})
+}
+
+const timer = ref()
+onMounted(()=>timer.value = setInterval(()=>updateWidget(coords.value), 60000))
+onBeforeUnmount(() => clearInterval(timer.value)),
 
 onMounted(() => {
   navigator.geolocation.getCurrentPosition(

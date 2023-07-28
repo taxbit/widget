@@ -1,5 +1,5 @@
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="36px" viewBox="0 0 91 91" width="91px" xml:space="preserve">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="36px" viewBox="0 0 91 91" width="36px" xml:space="preserve">
         <g>
             <path
                 d="M45.574,38.253c-5.443,0-9.871,4.428-9.871,9.871s4.428,9.871,9.871,9.871s9.871-4.428,9.871-9.871   S51.018,38.253,45.574,38.253z M45.574,54.595c-3.568,0-6.471-2.904-6.471-6.471c0-3.568,2.902-6.471,6.471-6.471   c3.566,0,6.471,2.902,6.471,6.471C52.045,51.69,49.141,54.595,45.574,54.595z" />

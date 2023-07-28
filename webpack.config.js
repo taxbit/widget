@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require("vue-loader");
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     mode: 'development',
@@ -51,19 +52,19 @@ module.exports = {
                 }
             },
             {
-                test: /\.(css|scss)$/,
+                test: /\.(css|scss|postcss)$/,
                 use: [{
-                        loader: 'vue-style-loader'
-                    },
-                    {
-                        loader: 'css-loader'
-                    },
-                    {
-                        loader: 'sass-loader'
-                    },
-                    {
-                        loader: 'postcss-loader'
-                    },
+                    loader: 'vue-style-loader'
+                },
+                {
+                    loader: 'css-loader'
+                },
+                {
+                    loader: 'sass-loader'
+                },
+                {
+                    loader: 'postcss-loader'
+                },
                 ]
             },
             {
@@ -74,10 +75,10 @@ module.exports = {
                 test: /\.css$/i,
                 use: [MiniCssExtractPlugin.loader, "css-loader"],
             },
-
         ],
     },
     plugins: [
+        new Dotenv(),
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({

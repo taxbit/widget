@@ -1,6 +1,6 @@
 <template>
-    <svg width="20px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve"
-        class="icon-wind-direction" :style="`transform: rotate(${deg || 0}deg);`">
+    <svg width="16px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve"
+        class="icon-wind-direction" style="transform: rotate(293deg);">
         <g fill="#48484a">
             <path
                 d="M510.5,749.6c-14.9-9.9-38.1-9.9-53.1,1.7l-262,207.3c-14.9,11.6-21.6,6.6-14.9-11.6L474,48.1c5-16.6,14.9-18.2,21.6,0l325,898.7c6.6,16.6-1.7,23.2-14.9,11.6L510.5,749.6z">
@@ -11,10 +11,3 @@
         </g>
     </svg>
 </template>
-<script setup lang="ts">
-interface Props {
-    deg: number;
-}
-const props = defineProps<Props>()
-
-</script>

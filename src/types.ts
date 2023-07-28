@@ -4,6 +4,7 @@ export type WeatherData = {
         temp: number;
         humidity: number;
         pressure: number;
+        feels_like: number;
     };
     weather: Array<{
         description: string;
@@ -15,5 +16,8 @@ export type WeatherData = {
     };
     sys: {
         country: string;
-    }
+    };
+    visibility: number;
 }
+
+export type Coordinates = Record<'latitude' | 'longitude', string | number | null>
