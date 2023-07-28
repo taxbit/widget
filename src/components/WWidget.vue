@@ -1,12 +1,12 @@
 <template>
-    <section>
+    <section class="grid grid-cols-1">
         <div>
             <w-icon-gear/>
         </div>
-        <div>
+        <div class="text-xl">
             {{ `${currentWeather.name}, ${currentWeather.sys?.country}` }}
         </div>
-        <section class="">
+        <section class="text-sm text-gray-500">
             <img v-if="currentWeather.weather?.length"
                 :src="`https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`">
             <div>
@@ -30,7 +30,3 @@ interface Props {
 const props = defineProps<Props>()
 
 </script>
-
-<style lang="scss">
-@import "../styles/styles.scss";
-</style>

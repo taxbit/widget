@@ -51,16 +51,19 @@ module.exports = {
                 }
             },
             {
-                test: /\.scss$/,
+                test: /\.(css|scss)$/,
                 use: [{
-                    loader: 'vue-style-loader'
-                },
-                {
-                    loader: 'css-loader'
-                },
-                {
-                    loader: 'sass-loader'
-                }
+                        loader: 'vue-style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'sass-loader'
+                    },
+                    {
+                        loader: 'postcss-loader'
+                    },
                 ]
             },
             {
