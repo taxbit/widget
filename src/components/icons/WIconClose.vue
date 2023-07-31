@@ -1,0 +1,29 @@
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 50 50"
+    width="20px"
+  >
+    <line
+      fill="none"
+      stroke="#000000"
+      stroke-width="2"
+      stroke-miterlimit="10"
+      x1="7"
+      y1="7"
+      x2="43"
+      y2="43"
+    />
+    <line
+      fill="none"
+      stroke="#000000"
+      stroke-width="2"
+      stroke-miterlimit="10"
+      x1="43"
+      y1="7"
+      x2="7"
+      y2="43"
+    />
+  </svg>
+</template>
