@@ -1,9 +1,11 @@
 {
   "name": "weather-widget-testing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "main.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "webpack serve --config webpack.config.js",
     "build": "webpack --config webpack.config.js"
