@@ -1,7 +1,9 @@
 {
-  "name": "widget",
+  "name": "weather-widget-010823",
   "version": "1.0.0",
   "description": "",
+  "main": "main.js",
+  "files": ["dist"],
   "scripts": {
     "start": "webpack serve --config webpack.config.js",
     "build": "webpack --config webpack.config.js"

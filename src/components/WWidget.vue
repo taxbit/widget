@@ -40,9 +40,6 @@
         </div>
       </section>
     </template>
-    <section v-else>
-      <w-spinner />
-    </section>
   </section>
 </template>
 
@@ -50,8 +47,7 @@
 import type { WeatherData } from "../types";
 import WIconWind from "./icons/WIconWind.vue";
 import WIconPressure from "./icons/WIconPressure.vue";
-import WSpinner from "./WSpinner.vue";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 interface Props {
   currentWeather: WeatherData | null;

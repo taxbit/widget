@@ -23,7 +23,6 @@ export type WeatherData = {
 export type Coordinates = Record<"lat" | "lon", string | number | null>;
 
 export type Location = {
-  order: number;
   title: string;
   lat: number;
   lon: number;

@@ -15,10 +15,11 @@
             v-for="(item, index) in suggestions"
             :key="index"
           >
-            {{ item.name }}{{ `, ${item.country}` }}{{ `, ${item.state}` }}
+            {{ item.name }}{{ item.country && `, ${item.country}`
+            }}{{ item.state && `, ${item.state}` }}
           </li>
         </template>
-        <li v-else class="suggestions__item">No matches...</li>
+        <li v-else class="suggestions__item">Sorry, no matches...</li>
       </ul>
     </form>
   </div>
@@ -44,8 +45,8 @@ const suggestions = computed({
   },
 });
 
-watch(suggestions, (suggestions) => {
-  suggestions
+watch(suggestions, (newVal) => {
+  newVal
     ? window.addEventListener("click", closeList)
     : window.removeEventListener("click", closeList);
 });

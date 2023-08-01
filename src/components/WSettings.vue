@@ -2,7 +2,7 @@
   <section class="settings">
     <div class="header">
       <div class="title">Settings</div>
-      <button class="close" @click="$emit('close')"><w-icon-close /></button>
+      <button class="close" @click="close"><w-icon-close /></button>
     </div>
     <w-drag-list v-model="locations" />
     <w-search-select
@@ -25,11 +25,12 @@ const emit = defineEmits(["updatedLocations", "close"]);
 const locations = ref<Location[]>(
   JSON.parse(localStorage.getItem("settings")) || [],
 );
+const needUpdate = ref<boolean>(false);
 watch(
   locations,
   (newVal) => {
     localStorage.setItem("settings", JSON.stringify(newVal));
-    emit("updatedLocations");
+    needUpdate.value = true;
   },
   { deep: true },
 );
@@ -39,7 +40,6 @@ const addLocation = (location: LocationRawData) => {
   locations.value.push({
     lat,
     lon,
-    order: locations.value.length,
     title: name + ", " + country,
   });
   suggestions.value = null;
@@ -52,6 +52,11 @@ const search = async (input: string) => {
 };
 
 const suggestions = ref<LocationRawData[] | null>(null);
+
+const close = () => {
+  needUpdate.value && emit("updatedLocations");
+  emit("close");
+};
 </script>
 
 <style lang="postcss" scoped>

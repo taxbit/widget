@@ -12,6 +12,9 @@
             :current-weather="weather"
           />
         </div>
+        <section v-else-if="!showSettings">
+          <w-spinner />
+        </section>
       </transition>
       <transition name="fade">
         <w-settings
@@ -25,37 +28,59 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import "./styles/styles.scss";
+import { onMounted, ref } from "vue";
 import WWidget from "./components/WWidget.vue";
-import type { WeatherData, Coordinates, Location } from "./types";
+import type { WeatherData, Location } from "./types";
 import service from "./services/api";
 import WSettings from "./components/WSettings.vue";
 import WIconGear from "./components/icons/WIconGear.vue";
+import WSpinner from "./components/WSpinner.vue";
 
 const locations = ref<Location[]>([]);
 
 const locationsUpdated = async () => {
   locations.value = JSON.parse(localStorage.getItem("settings"));
+
+  if (!locations.value?.length) {
+    weatherList.value = [];
+    initialGeoSetup();
+    return;
+  }
   const reqs = locations.value.map((location) => {
-    return service.getCurrentWeather({ lat: location.lat, lon: location.lon });
+    return service.getCurrentWeather(location);
   });
-  weatherList.value = await Promise.all(reqs)
+  weatherList.value = await Promise.all(reqs);
+  if (weatherList.value?.length) {
+    weatherList.value.forEach((w: WeatherData, wIdx) => {
+      locations.value[wIdx].title = `${w.name}, ${w.sys?.country}`;
+    });
+    localStorage.setItem("settings", JSON.stringify(locations.value));
+  }
 };
 onMounted(() => locationsUpdated());
 
 const weatherList = ref<WeatherData[] | null>(null);
 
-onMounted(() => {
-  // navigator.geolocation.getCurrentPosition(
-  //   (position) => (coords.value = position.coords),
-  //   (err) => console.warn(`ERROR(${err.code}): ${err.message}`),
-  //   {
-  //     enableHighAccuracy: true,
-  //     timeout: 5000,
-  //     maximumAge: 0,
-  //   },
-  // );
-});
+const initialGeoSetup = () => {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      console.log(position.coords);
+      const { latitude: lat, longitude: lon } = position.coords;
+      localStorage.setItem(
+        "settings",
+        JSON.stringify([{ lat, lon, title: "" }]),
+      );
+      locationsUpdated();
+    },
+    (err) => console.warn(`ERROR(${err.code}): ${err.message}`),
+    {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0,
+    },
+  );
+};
 
 const showSettings = ref<boolean>(false);
 </script>
