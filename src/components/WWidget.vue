@@ -53,17 +53,18 @@ interface Props {
   currentWeather: WeatherData | null;
 }
 const props = defineProps<Props>();
-const icon = computed(
-  () =>
+const icon = computed(() => {
+  return (
     props.currentWeather?.weather?.length &&
-    props.currentWeather?.weather[0]?.icon,
-);
+    props.currentWeather?.weather[0].icon
+  );
+});
 const feelsLike = computed(() => {
   if (props.currentWeather?.weather?.length) {
     const description =
-      props.currentWeather?.weather[0]?.description.charAt(0).toUpperCase() +
-      props.currentWeather?.weather[0]?.description.slice(1);
-    return `Feels like: ${props.currentWeather.main.feels_like.toFixed(0)}°C. 
+      props.currentWeather?.weather[0].description.charAt(0).toUpperCase() +
+      props.currentWeather?.weather[0].description.slice(1);
+    return `Feels like: ${props.currentWeather.main.feels_like.toFixed(0)}°C.
                       ${description}.`;
   }
   return "";
