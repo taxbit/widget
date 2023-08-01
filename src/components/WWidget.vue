@@ -59,7 +59,7 @@ const icon = computed(
     props.currentWeather?.weather[0]?.icon,
 );
 const feelsLike = computed(() => {
-  if (props.currentWeather) {
+  if (props.currentWeather?.weather?.length) {
     const description =
       props.currentWeather?.weather[0]?.description.charAt(0).toUpperCase() +
       props.currentWeather?.weather[0]?.description.slice(1);
