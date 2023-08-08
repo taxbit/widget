@@ -65,7 +65,6 @@ const weatherList = ref<WeatherData[] | null>(null);
 const initialGeoSetup = () => {
   navigator.geolocation.getCurrentPosition(
     (position) => {
-      console.log(position.coords);
       const { latitude: lat, longitude: lon } = position.coords;
       localStorage.setItem(
         "settings",

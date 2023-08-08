@@ -13,7 +13,7 @@
           @mouseup="stopGrab"
           class="hamburger"
         />
-        <span class="item__title">{{ item.title }}</span>
+        <span class="item__title">{{ utils.getItemTitle(item, visibleFields) }}</span>
         <button @click="deleteItem(idx)">
           <w-icon-trash />
         </button>
@@ -22,14 +22,17 @@
   </TransitionGroup>
 </template>
 <script setup lang="ts">
+import { ListItem } from "../types";
 import WIconHamburger from "./icons/WIconHamburger.vue";
 import WIconTrash from "./icons/WIconTrash.vue";
 import { computed } from "vue";
+import utils from "../utils";
 
 const emits = defineEmits(["update:modelValue"]);
 
 interface Props {
-  modelValue: Record<string, string | number>[] | null;
+  modelValue: ListItem[] | null;
+  visibleFields: string[];
 }
 const props = defineProps<Props>();
 

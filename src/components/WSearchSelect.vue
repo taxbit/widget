@@ -1,9 +1,14 @@
 <template>
   <div class="select">
     <form @submit.prevent="search">
-      <label for="input">Add location:</label>
+      <label for="input">{{ label }}</label>
       <div class="select-input">
-        <input v-model="input" type="text" id="input" placeholder="New York" />
+        <input
+          v-model="input"
+          type="text"
+          id="input"
+          :placeholder="placeholder"
+        />
         <button :disabled="!input" type="submit"><w-icon-enter /></button>
       </div>
       <ul v-if="suggestions" class="suggestions">
@@ -15,8 +20,7 @@
             v-for="(item, index) in suggestions"
             :key="index"
           >
-            {{ item.name }}{{ item.country && `, ${item.country}`
-            }}{{ item.state && `, ${item.state}` }}
+            {{ utils.getItemTitle(item, visibleFields) }}
           </li>
         </template>
         <li v-else class="suggestions__item">Sorry, no matches...</li>
@@ -28,11 +32,16 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import WIconEnter from "./icons/WIconEnter.vue";
+import { ListItem } from "../types";
+import utils from "../utils";
 
 const emits = defineEmits(["search", "selected", "update:modelValue"]);
 
 interface Props {
-  modelValue: Record<string, string | number>[] | null;
+  modelValue: ListItem[] | null;
+  label: string;
+  placeholder: string;
+  visibleFields: string[];
 }
 const props = defineProps<Props>();
 
@@ -62,7 +71,7 @@ const input = ref<string>("");
 const search = () => {
   emits("search", input.value);
 };
-const select = (item: Record<string, string | number>) => {
+const select = (item: ListItem) => {
   emits("selected", JSON.parse(JSON.stringify(item)));
   input.value = "";
 };

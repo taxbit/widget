@@ -35,3 +35,5 @@ export type LocationRawData = {
   country: string;
   state: string;
 };
+
+export type ListItem = Record<string, string | number>;

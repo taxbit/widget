@@ -4,8 +4,11 @@
       <div class="title">Settings</div>
       <button class="close" @click="close"><w-icon-close /></button>
     </div>
-    <w-drag-list v-model="locations" />
+    <w-drag-list v-model="locations" :visible-fields="['title']" />
     <w-search-select
+      label="Add location:"
+      placeholder="New York"
+      :visible-fields="['name', 'country', 'state']"
       v-model="suggestions"
       @search="search"
       @selected="addLocation"
