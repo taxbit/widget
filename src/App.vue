@@ -5,7 +5,7 @@
         <w-icon-gear />
       </button>
       <transition name="fade">
-        <div v-if="!showSettings && weatherList?.length">
+        <div v-if="!showSettings && weatherList.length">
           <w-widget
             v-for="(weather, index) in weatherList"
             :key="index"
@@ -38,6 +38,9 @@ import WIconGear from "./components/icons/WIconGear.vue";
 import WSpinner from "./components/WSpinner.vue";
 
 const locations = ref<Location[]>([]);
+const weatherList = ref<WeatherData[]>([]);
+
+onMounted(() => locationsUpdated());
 
 const locationsUpdated = async () => {
   locations.value = JSON.parse(localStorage.getItem("settings"));
@@ -47,10 +50,13 @@ const locationsUpdated = async () => {
     initialGeoSetup();
     return;
   }
-  const reqs = locations.value.map((location) => {
-    return service.getCurrentWeather(location);
-  });
-  weatherList.value = await Promise.all(reqs);
+
+  try {
+    weatherList.value = await service.getWeatherList(locations.value);
+  } catch (error) {
+    console.log(error);
+  }
+
   if (weatherList.value?.length) {
     weatherList.value.forEach((w: WeatherData, wIdx) => {
       locations.value[wIdx].title = `${w.name}, ${w.sys?.country}`;
@@ -58,9 +64,6 @@ const locationsUpdated = async () => {
     localStorage.setItem("settings", JSON.stringify(locations.value));
   }
 };
-onMounted(() => locationsUpdated());
-
-const weatherList = ref<WeatherData[] | null>(null);
 
 const initialGeoSetup = () => {
   navigator.geolocation.getCurrentPosition(

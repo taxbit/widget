@@ -4,10 +4,7 @@ const GEO_API_URL = process.env.GEO_API_URL;
 const appid = process.env.WEATHER_API_KEY;
 
 class service {
-  async getCurrentWeather(
-    location: Location,
-    units = "metric",
-  ): Promise<WeatherData> {
+  async getWeather(location: Location, units = "metric"): Promise<WeatherData> {
     const params = {
       units,
       lat: location.lat,
@@ -15,8 +12,13 @@ class service {
       appid,
     };
     const query: string = "?" + new URLSearchParams(params as any).toString();
-    const response = await fetch(WEATHER_API_URL + query);
-    return response.ok ? response.json() : null;
+    try {
+      const response = await fetch(WEATHER_API_URL + query);
+      return response.ok ? response.json() : null;
+    } catch (error) {
+      console.error(error);
+      throw "we have some api ploblems...";
+    }
   }
 
   async getCoordsByGeo(city: string): Promise<LocationRawData[]> {
@@ -24,6 +26,11 @@ class service {
     const query: string = "?" + new URLSearchParams(params as any).toString();
     const response = await fetch(GEO_API_URL + query);
     return response.ok ? response.json() : null;
+  }
+
+  async getWeatherList(locations: Location[]): Promise<WeatherData[]> {
+    const reqs = locations.map((location) => this.getWeather(location));
+    return Promise.all(reqs);
   }
 }
 
